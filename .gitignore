@@ -1,0 +1,46 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+env/
+env.bak/
+venv/
+ENV/
+.venv/
+pip-wheel-metadata/
+build/
+dist/
+*.egg-info/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+coverage/
+htmlcov/
+
+# Mypy / linting
+.mypy_cache/
+.ruff_cache/
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Node / frontend artifacts
+node_modules/
+/.next/
+
+# Misc
+.env
+
