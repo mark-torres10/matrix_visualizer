@@ -1,0 +1,19 @@
+[project]
+name = "matrix-backend"
+version = "0.1.0"
+description = "FastAPI service for 2x2 matrix preview layers"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.110.0",
+  "uvicorn[standard]>=0.23.0",
+  "pydantic>=2.7.0",
+  "numpy>=2.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.optional-dependencies]
+tests = ["pytest>=8.0.0"]
