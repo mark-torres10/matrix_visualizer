@@ -66,16 +66,22 @@ export const GraphCanvas = ({
     // draw grid
     ctx.strokeStyle = "rgba(148, 163, 184, 0.25)";
     ctx.beginPath();
-    const steps = Math.max(1, Math.ceil(grid.extent / grid.step));
+    const isStepValid = Number.isFinite(grid.step) && grid.step > 0;
+    const isExtentValid = Number.isFinite(grid.extent) && grid.extent >= 0;
+    if (!isStepValid || !isExtentValid) {
+      return;
+    }
+    const extent = Math.max(grid.extent, 0);
+    const steps = Math.max(1, Math.ceil(extent / grid.step));
     for (let i = -steps; i <= steps; i++) {
       const coord = i * grid.step;
-      const verticalStart = worldToScreen(coord, -grid.extent);
-      const verticalEnd = worldToScreen(coord, grid.extent);
+      const verticalStart = worldToScreen(coord, -extent);
+      const verticalEnd = worldToScreen(coord, extent);
       ctx.moveTo(verticalStart.x, verticalStart.y);
       ctx.lineTo(verticalEnd.x, verticalEnd.y);
 
-      const horizontalStart = worldToScreen(-grid.extent, coord);
-      const horizontalEnd = worldToScreen(grid.extent, coord);
+      const horizontalStart = worldToScreen(-extent, coord);
+      const horizontalEnd = worldToScreen(extent, coord);
       ctx.moveTo(horizontalStart.x, horizontalStart.y);
       ctx.lineTo(horizontalEnd.x, horizontalEnd.y);
     }
@@ -85,12 +91,12 @@ export const GraphCanvas = ({
     ctx.lineWidth = 2;
     ctx.strokeStyle = "rgba(148, 163, 184, 0.9)";
     ctx.beginPath();
-    const left = worldToScreen(-grid.extent, 0);
-    const right = worldToScreen(grid.extent, 0);
+    const left = worldToScreen(-extent, 0);
+    const right = worldToScreen(extent, 0);
     ctx.moveTo(left.x, left.y);
     ctx.lineTo(right.x, right.y);
-    const top = worldToScreen(0, grid.extent);
-    const bottom = worldToScreen(0, -grid.extent);
+    const top = worldToScreen(0, extent);
+    const bottom = worldToScreen(0, -extent);
     ctx.moveTo(top.x, top.y);
     ctx.lineTo(bottom.x, bottom.y);
     ctx.stroke();

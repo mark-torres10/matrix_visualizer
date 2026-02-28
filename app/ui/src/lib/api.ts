@@ -23,7 +23,7 @@ export async function fetchPreview(
     },
     body: JSON.stringify({
       grid,
-      transforms: transforms.map(({ a, b, c, d, enabled }) => ({
+      transforms: enabledTransforms.map(({ a, b, c, d, enabled }) => ({
         a,
         b,
         c,
@@ -35,7 +35,10 @@ export async function fetchPreview(
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch preview layers");
+    const errorText = (await response.text()).trim();
+    throw new Error(
+      `Failed to fetch preview layers (${response.status}): ${errorText || "no response body"}`
+    );
   }
 
   return response.json();

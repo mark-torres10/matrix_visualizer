@@ -59,10 +59,12 @@ def generate_grid_segments(extent: float, step: float) -> List[Segment]:
     if extent <= 0 or step <= 0:
         return []
     lines: List[Segment] = []
-    count = int(math.ceil(extent / step))
+    count = int(math.floor(extent / step))
     positions = [i * step for i in range(-count, count + 1)]
-    y_min = -count * step
-    y_max = count * step
+    if not positions:
+        return []
+    y_min = positions[0]
+    y_max = positions[-1]
     for x in positions:
         lines.append((x, y_min, x, y_max))
     for y in positions:

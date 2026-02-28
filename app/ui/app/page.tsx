@@ -15,7 +15,8 @@ import {
   layerColors,
 } from "@/src/lib/state";
 
-const clampPositive = (value: number) => (value <= 0 ? 0.5 : value);
+const clampMin = (value: number, min: number) =>
+  Number.isFinite(value) ? Math.max(value, min) : min;
 
 type StatusState = "idle" | "loading" | "synced" | "error";
 
@@ -98,16 +99,17 @@ export default function Home() {
   };
 
   const applyPreset = (id: string, preset: TransformPreset) => {
+    const matrix = preset.matrix;
     setTransforms((prev) =>
       prev.map((transform) =>
         transform.id === id
           ? {
               ...transform,
               name: preset.name ?? transform.name,
-              a: preset.a,
-              b: preset.b,
-              c: preset.c,
-              d: preset.d,
+              a: matrix?.a ?? transform.a,
+              b: matrix?.b ?? transform.b,
+              c: matrix?.c ?? transform.c,
+              d: matrix?.d ?? transform.d,
             }
           : transform
       )
@@ -123,10 +125,10 @@ export default function Home() {
     ]);
   };
 
-  const updateGrid = (field: keyof GridSettings, value: number) => {
+  const updateGrid = (field: keyof GridSettings, value: number, min: number) => {
     setGrid((prev) => ({
       ...prev,
-      [field]: clampPositive(value),
+      [field]: clampMin(value, min),
     }));
   };
 
@@ -172,7 +174,7 @@ export default function Home() {
                   min={0.5}
                   step={0.5}
                   value={grid.extent}
-                  onChange={(event) => updateGrid("extent", Number(event.target.value))}
+                  onChange={(event) => updateGrid("extent", Number(event.target.value), 0.5)}
                   className="mt-1 w-full rounded-lg border border-white/10 bg-slate-950/60 px-3 py-1 text-sm text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400"
                 />
               </label>
@@ -186,7 +188,7 @@ export default function Home() {
                   min={0.2}
                   step={0.2}
                   value={grid.step}
-                  onChange={(event) => updateGrid("step", Number(event.target.value))}
+                  onChange={(event) => updateGrid("step", Number(event.target.value), 0.2)}
                   className="mt-1 w-full rounded-lg border border-white/10 bg-slate-950/60 px-3 py-1 text-sm text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400"
                 />
               </label>

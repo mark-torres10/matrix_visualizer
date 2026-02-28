@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Matrix Builder is the Next.js/Tailwind front end for composing 2×2 matrix transforms and rendering the preview grid powered by the matrix-desmos backend.
 
-## Getting Started
+## Development
 
-First, run the development server:
+1. `cd app/ui`
+2. `pnpm install`
+3. Ensure the backend is running (`uv run uvicorn matrix_backend.main:app --reload --port 8000` from `app/backend`) so the preview endpoint is reachable at `http://localhost:8000/preview`.
+4. `pnpm dev` to start Next.js with live reload.
+5. Optionally override `NEXT_PUBLIC_BACKEND_URL` if the backend runs on a different host or port.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Build & Deploy
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `pnpm build` prepares the production bundle.
+- `pnpm start` serves the compiled version locally.
+- The project is deployable to Vercel or any platform that supports Next.js server-rendered apps. Make sure the deployed UI can reach the backend and configure `NEXT_PUBLIC_BACKEND_URL` accordingly.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Key directories
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/components/` contains reusable inputs (`MatrixInput`), cards (`TransformCard`), and the canvas renderer (`GraphCanvas`).
+- `src/lib/` keeps shared state, presets, API helpers, and types.
+- `app/page.tsx` wires the canvas, sidebar, and backend polling logic.
 
-## Learn More
+## Documentation
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Additional context (models, diagrams, etc.) can be found under `docs/` in the repository root.

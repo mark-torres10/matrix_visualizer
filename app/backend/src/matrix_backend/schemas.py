@@ -1,5 +1,9 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, conlist
 from typing import List
+
+MAX_GRID_EXTENT = 100.0
+MAX_GRID_STEP = 10.0
+MAX_TRANSFORMS = 32
 
 
 class TransformInput(BaseModel):
@@ -11,13 +15,21 @@ class TransformInput(BaseModel):
 
 
 class GridInput(BaseModel):
-    extent: float = Field(gt=0, description="Half span of the grid in both axes")
-    step: float = Field(gt=0, description="Distance between adjacent grid lines")
+    extent: float = Field(
+        gt=0,
+        le=MAX_GRID_EXTENT,
+        description="Half span of the grid in both axes",
+    )
+    step: float = Field(
+        gt=0,
+        le=MAX_GRID_STEP,
+        description="Distance between adjacent grid lines",
+    )
 
 
 class PreviewRequest(BaseModel):
     grid: GridInput
-    transforms: List[TransformInput]
+    transforms: conlist(TransformInput, min_items=0, max_items=MAX_TRANSFORMS)
 
 
 class LayerResponse(BaseModel):

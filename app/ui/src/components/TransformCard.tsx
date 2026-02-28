@@ -43,6 +43,8 @@ export const TransformCard = ({
             className="rounded-md border border-white/10 px-2 py-1 text-[10px] transition hover:border-sky-400"
             onClick={() => onMove(transform.id, "up")}
             disabled={index === 1}
+            aria-label="Move layer up"
+            title="Move layer up"
           >
             ▲
           </button>
@@ -51,6 +53,8 @@ export const TransformCard = ({
             className="rounded-md border border-white/10 px-2 py-1 text-[10px] transition hover:border-sky-400"
             onClick={() => onMove(transform.id, "down")}
             disabled={index === total}
+            aria-label="Move layer down"
+            title="Move layer down"
           >
             ▼
           </button>

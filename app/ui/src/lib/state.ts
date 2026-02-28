@@ -16,7 +16,7 @@ export type GridSettings = {
 export type PreviewLayer = {
   index: number;
   matrix: number[][];
-  lines: number[][];
+  lines: [number, number, number, number][];
 };
 
 const randomId = () => {
@@ -70,10 +70,10 @@ export const createTransform = (
   return {
     id: overrides?.id ?? randomId(),
     name: overrides?.name ?? "Transform",
-    a: matrix?.a ?? 1,
-    b: matrix?.b ?? 0,
-    c: matrix?.c ?? 0,
-    d: matrix?.d ?? 1,
+    a: overrides?.a ?? matrix?.a ?? 1,
+    b: overrides?.b ?? matrix?.b ?? 0,
+    c: overrides?.c ?? matrix?.c ?? 0,
+    d: overrides?.d ?? matrix?.d ?? 1,
     enabled: overrides?.enabled ?? true,
   };
 };
