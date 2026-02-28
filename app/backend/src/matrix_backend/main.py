@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -9,6 +11,14 @@ from .compute import (
 )
 from .schemas import LayerResponse, PreviewRequest, PreviewResponse
 
+def get_allowed_origins() -> list[str]:
+    defaults = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    extra = os.getenv("FRONTEND_ORIGINS")
+    if extra:
+        defaults.extend(origin for origin in (value.strip() for value in extra.split(",")) if origin)
+    return defaults
+
+
 app = FastAPI(
     title="Matrix Desmos Backend",
     version="0.1.0",
@@ -17,7 +27,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=get_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
