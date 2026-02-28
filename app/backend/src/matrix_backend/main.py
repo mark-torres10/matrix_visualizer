@@ -14,9 +14,10 @@ from .schemas import LayerResponse, PreviewRequest, PreviewResponse
 def get_allowed_origins() -> list[str]:
     defaults = ["http://localhost:3000", "http://127.0.0.1:3000"]
     extra = os.getenv("FRONTEND_ORIGINS")
-    if extra:
-        defaults.extend(origin for origin in (value.strip() for value in extra.split(",")) if origin)
-    return defaults
+    if not extra:
+        return defaults
+    parsed = [value.strip() for value in extra.split(",") if value.strip()]
+    return parsed
 
 
 ALLOWED_METHODS = ["GET", "POST", "OPTIONS"]

@@ -24,6 +24,9 @@ export const GraphCanvas = ({
   layerColors,
   layerNames = [],
 }: GraphCanvasProps) => {
+  const defaultLayerColor = "rgba(148, 163, 184, 0.9)";
+  const getLayerColor = (index: number) =>
+    layerColors.length > 0 ? layerColors[index % layerColors.length] : defaultLayerColor;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [camera, setCamera] = useState<CameraState>({ scale: 60, offsetX: 0, offsetY: 0 });
   const cameraRef = useRef(camera);
@@ -103,8 +106,7 @@ export const GraphCanvas = ({
 
     // layers
     layers.forEach((layer, index) => {
-      const color = layerColors[index % layerColors.length];
-      ctx.strokeStyle = color;
+      ctx.strokeStyle = getLayerColor(index);
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       layer.lines.forEach(([x1, y1, x2, y2]) => {
@@ -198,7 +200,7 @@ export const GraphCanvas = ({
             <div key={layer.index} className="flex items-center gap-2">
               <span
                 className="h-2 w-8 rounded-full"
-                style={{ backgroundColor: layerColors[index % layerColors.length] }}
+                style={{ backgroundColor: getLayerColor(index) }}
               />
               <div>
                 <p className="text-[11px] font-semibold text-slate-100">
