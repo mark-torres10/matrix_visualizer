@@ -19,6 +19,10 @@ def get_allowed_origins() -> list[str]:
     return defaults
 
 
+ALLOWED_METHODS = ["GET", "POST", "OPTIONS"]
+ALLOWED_HEADERS = ["Authorization", "Content-Type", "X-Requested-With"]
+
+
 app = FastAPI(
     title="Matrix Desmos Backend",
     version="0.1.0",
@@ -29,8 +33,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=get_allowed_origins(),
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=ALLOWED_METHODS,
+    allow_headers=ALLOWED_HEADERS,
 )
 
 
